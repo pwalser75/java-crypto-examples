@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 /**
  * Tests for Java Security
  *
- * @author wap
+ * @author pwalser
  * @since 10.04.2018
  */
 public class JavaSecurityTest {

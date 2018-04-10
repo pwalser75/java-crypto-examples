@@ -15,12 +15,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 /**
- * Tests for symmetric cryptography
+ * Tests for symmetric cryptography with passwords (PBE)
  *
- * @author wap
+ * @author pwalser
  * @since 10.04.2018
  */
-public class SymmetricCryptograhyWithPasswordTest {
+public class SymmetricCryptographyWithPasswordTest {
 
     @Test
     public void testEncryptText() throws Exception {

@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Random utility functions.
  *
- * @author wap
+ * @author pwalser
  * @since 10.04.2018
  */
 public final class RandomUtil {

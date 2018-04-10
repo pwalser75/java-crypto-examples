@@ -2,6 +2,7 @@
 /build/
 /target/
 /logs/
+/out/
 
 *.iml
 /.idea/

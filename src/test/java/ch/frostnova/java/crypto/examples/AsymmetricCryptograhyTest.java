@@ -14,9 +14,9 @@ import java.security.Signature;
 import java.security.spec.ECGenParameterSpec;
 
 /**
- * Tests for symmetric cryptography
+ * Tests for assymmetric cryptography
  *
- * @author wap
+ * @author pwalser
  * @since 10.04.2018
  */
 public class AsymmetricCryptograhyTest {

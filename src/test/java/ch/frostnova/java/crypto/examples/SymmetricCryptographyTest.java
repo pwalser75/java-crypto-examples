@@ -15,10 +15,10 @@ import java.security.SecureRandom;
 /**
  * Tests for symmetric cryptography
  *
- * @author wap
+ * @author pwalser
  * @since 10.04.2018
  */
-public class SymmetricCryptograhyTest {
+public class SymmetricCryptographyTest {
 
     @Test
     public void testEncryptText() throws Exception {
