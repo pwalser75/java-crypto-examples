@@ -1,0 +1,58 @@
+defaultTasks 'clean', 'build'
+
+apply plugin: 'java'
+
+description = 'Java Cryptography Examples'
+group = 'ch.frostnova'
+version = '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+jar { duplicatesStrategy = 'exclude' }
+
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+def dateTimeFormat = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+def buildDate = java.time.LocalDateTime.now()
+
+jar {
+    manifest {
+        attributes(
+                "Name": project.name,
+                "Version": project.version,
+                "Build-Date": dateTimeFormat.format(buildDate)
+        )
+    }
+}
+
+ext.libs = [
+        testbase: [
+                "junit:junit:4.12",
+                "org.mockito:mockito-core:2.4.1"
+        ],
+        loggingAPI   : [
+                "org.slf4j:slf4j-api:1.7.22"
+        ],
+        loggingImpl  : [
+                "org.slf4j:jcl-over-slf4j:1.7.22",
+                "org.slf4j:jul-to-slf4j:1.7.22",
+                "ch.qos.logback:logback-classic:1.1.8"
+        ],
+        check: "ch.frostnova:check:1.0.0-RC2"
+]
+
+dependencies {
+    compile libs.loggingAPI
+    compile libs.loggingImpl
+    compile libs.check
+
+    testCompile libs.testbase
+}
