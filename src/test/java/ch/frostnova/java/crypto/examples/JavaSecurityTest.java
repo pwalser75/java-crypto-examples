@@ -53,13 +53,16 @@ public class JavaSecurityTest {
         int ecMax = Cipher.getMaxAllowedKeyLength("EC");
         int aesMax = Cipher.getMaxAllowedKeyLength("AES");
 
+        log.info("Java RT version: " + System.getProperty("java.runtime.version"));
+        log.info("Max. RSA key length: " + rsaMax);
         log.info("Max. RSA key length: " + rsaMax);
         log.info("Max. EC key length: " + ecMax);
         log.info("Max. AES key length: " + aesMax);
 
-        Assert.assertTrue(rsaMax == Integer.MAX_VALUE);
-        Assert.assertTrue(ecMax == Integer.MAX_VALUE);
-        Assert.assertTrue(aesMax == Integer.MAX_VALUE);
+        String fail = "JCE unlimited strength cryptography not enabled";
+        Assert.assertTrue(fail, rsaMax == Integer.MAX_VALUE);
+        Assert.assertTrue(fail, ecMax == Integer.MAX_VALUE);
+        Assert.assertTrue(fail, aesMax == Integer.MAX_VALUE);
 
     }
 }
