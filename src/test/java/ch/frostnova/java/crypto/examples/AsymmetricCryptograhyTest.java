@@ -10,7 +10,6 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
-import java.security.spec.ECGenParameterSpec;
 
 /**
  * Tests for assymmetric cryptography
@@ -62,6 +61,7 @@ public class AsymmetricCryptograhyTest {
     public void testSignVerifyDSA() throws Exception {
 
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA");
+        keyGen.initialize(2048);
         KeyPair keyPair = keyGen.generateKeyPair();
 
         String signatureSpec = "SHA256withDSA";
@@ -73,7 +73,7 @@ public class AsymmetricCryptograhyTest {
     public void testSignVerifyEC() throws Exception {
 
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("EC");
-        keyGen.initialize(new ECGenParameterSpec("sect571k1"));
+        keyGen.initialize(256);
         KeyPair keyPair = keyGen.generateKeyPair();
 
         String signatureSpec = "SHA256withECDSA";
