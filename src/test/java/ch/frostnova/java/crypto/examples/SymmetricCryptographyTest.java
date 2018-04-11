@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -26,7 +26,10 @@ public class SymmetricCryptographyTest {
         String message = "Nobody expects the Spanish Inquisition!";
         byte[] data = message.getBytes(StandardCharsets.UTF_8);
 
-        SecretKey secretKey = randomKey();
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256);
+        SecretKey secretKey = keyGen.generateKey();
+
         byte[] encrypted = encrypt(secretKey, data);
         byte[] decrypted = decrypt(secretKey, encrypted);
         Assert.assertArrayEquals(data, decrypted);
@@ -36,17 +39,16 @@ public class SymmetricCryptographyTest {
     public void testEncryptRandomData() throws Exception {
 
         byte[] data = RandomUtil.randomData(1, 1000000);
-        SecretKey secretKey = randomKey();
+
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256);
+        SecretKey secretKey = keyGen.generateKey();
+
         byte[] encrypted = encrypt(secretKey, data);
         byte[] decrypted = decrypt(secretKey, encrypted);
         Assert.assertArrayEquals(data, decrypted);
     }
 
-    private static SecretKey randomKey() {
-        byte[] key = new byte[16];
-        new SecureRandom().nextBytes(key);
-        return new SecretKeySpec(key, "AES");
-    }
 
     private static byte[] encrypt(SecretKey secretKey, byte[] message) throws Exception {
 

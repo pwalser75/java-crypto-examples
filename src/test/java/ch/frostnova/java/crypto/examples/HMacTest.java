@@ -26,7 +26,7 @@ public class HMacTest {
         Assert.assertArrayEquals(sign(key, data), sign(key, data));
     }
 
-    private static byte[] sign(byte[] key, byte[] data) throws Exception {
+    public static byte[] sign(byte[] key, byte[] data) throws Exception {
         Mac mac = Mac.getInstance("HmacSHA256");
         SecretKeySpec secretKey = new SecretKeySpec(key, mac.getAlgorithm());
 

@@ -32,8 +32,9 @@ public class SymmetricCryptographyWithPasswordTest {
         String message = "Nobody expects the Spanish Inquisition!";
 
         byte[] data = message.getBytes(StandardCharsets.UTF_8);
-        byte[] encrypted = encrypt(password, salt, data);
-        byte[] decrypted = decrypt(password, salt, encrypted);
+        int iterations = 10000;
+        byte[] encrypted = encrypt(password, salt, iterations, data);
+        byte[] decrypted = decrypt(password, salt, iterations, encrypted);
         Assert.assertArrayEquals(data, decrypted);
     }
 
@@ -45,17 +46,17 @@ public class SymmetricCryptographyWithPasswordTest {
         new SecureRandom().nextBytes(salt);
 
         byte[] data = RandomUtil.randomData(1, 1000000);
-        byte[] encrypted = encrypt(password, salt, data);
-        byte[] decrypted = decrypt(password, salt, encrypted);
+
+        int iterations = 10000;
+        byte[] encrypted = encrypt(password, salt, iterations, data);
+        byte[] decrypted = decrypt(password, salt, iterations, encrypted);
         Assert.assertArrayEquals(data, decrypted);
     }
 
-    private static byte[] encrypt(String password, byte[] salt, byte[] message) throws Exception {
+    private static byte[] encrypt(String password, byte[] salt, int iterations, byte[] message) throws Exception {
 
         byte[] iv = new byte[16];
         new SecureRandom().nextBytes(iv);
-
-        final int iterations = 10000;
 
         IvParameterSpec ivParamSpec = new IvParameterSpec(iv);
         PBEParameterSpec pbeParamSpec = new PBEParameterSpec(salt, iterations, ivParamSpec);
@@ -75,7 +76,7 @@ public class SymmetricCryptographyWithPasswordTest {
         return byteBuffer.array();
     }
 
-    private static byte[] decrypt(String password, byte[] salt, byte[] encrypted) throws Exception {
+    private static byte[] decrypt(String password, byte[] salt, int iterations, byte[] encrypted) throws Exception {
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(encrypted);
         int ivLength = byteBuffer.getInt();
@@ -83,9 +84,6 @@ public class SymmetricCryptographyWithPasswordTest {
         byteBuffer.get(iv);
         byte[] cipherText = new byte[byteBuffer.remaining()];
         byteBuffer.get(cipherText);
-
-        final int iterations = 10000;
-
         IvParameterSpec ivParamSpec = new IvParameterSpec(iv);
         PBEParameterSpec pbeParamSpec = new PBEParameterSpec(salt, iterations, ivParamSpec);
         PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray());

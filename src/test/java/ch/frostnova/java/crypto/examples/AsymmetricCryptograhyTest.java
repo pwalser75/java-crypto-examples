@@ -2,7 +2,6 @@ package ch.frostnova.java.crypto.examples;
 
 import ch.frostnova.java.crypto.examples.util.RandomUtil;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.crypto.Cipher;
@@ -22,9 +21,9 @@ import java.security.spec.ECGenParameterSpec;
 public class AsymmetricCryptograhyTest {
 
     @Test
-    @Ignore
-    public void testEncryptionEC() {
+    public void testEncryptionEC() throws Exception {
         // no direct encryption with elliptic curves supported
+        // ECIES not included in JCE (could be supplied using Bouncy Castle)
     }
 
     @Test
@@ -55,6 +54,17 @@ public class AsymmetricCryptograhyTest {
         KeyPair keyPair = keyGen.generateKeyPair();
 
         String signatureSpec = "SHA256withRSA";
+
+        testSignVerify(keyPair, signatureSpec);
+    }
+
+    @Test
+    public void testSignVerifyDSA() throws Exception {
+
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA");
+        KeyPair keyPair = keyGen.generateKeyPair();
+
+        String signatureSpec = "SHA256withDSA";
 
         testSignVerify(keyPair, signatureSpec);
     }
