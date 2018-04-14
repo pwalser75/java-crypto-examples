@@ -20,7 +20,7 @@ import java.security.SecureRandom;
  * @author pwalser
  * @since 10.04.2018
  */
-public class SymmetricCryptographyWithPasswordTest {
+public class PasswordBasedEncryptionTest {
 
     @Test
     public void testEncryptText() throws Exception {

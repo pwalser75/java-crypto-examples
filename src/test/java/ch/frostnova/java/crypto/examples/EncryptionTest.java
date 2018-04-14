@@ -18,7 +18,7 @@ import java.security.SecureRandom;
  * @author pwalser
  * @since 10.04.2018
  */
-public class SymmetricCryptographyTest {
+public class EncryptionTest {
 
     @Test
     public void testEncryptText() throws Exception {
