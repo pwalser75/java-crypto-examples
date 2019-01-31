@@ -11,7 +11,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/test.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>test.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/archive/test.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <totalSizeCap>100MB</totalSizeCap>
         </rollingPolicy>
@@ -20,10 +20,12 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] | %logger{40} - %msg%n</pattern>
         </encoder>
     </appender>
-    
+
     <!-- log level configurations per package or class -->
-    <logger name="org.hibernate" level="warn"/>
-    <logger name="org.hibernate.SQL" level="debug"/>
+    <!--
+        <logger name="org.test.java.project.x" level="warn"/>
+        <logger name="org.test.java.project.y" level="warn"/>
+    -->
 
     <!-- root logger: log everything with level info and above to console and file -->
     <root level="info">
