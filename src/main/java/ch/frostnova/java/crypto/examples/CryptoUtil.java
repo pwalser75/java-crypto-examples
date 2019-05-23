@@ -20,6 +20,9 @@ import java.security.Signature;
  */
 public final class CryptoUtil {
 
+    public final static String AES_CBC_PKCS5PADDING = "AES/CBC/PKCS5Padding";
+    public final static String AES_CTR_NO_PADDING = "AES/CTR/PKCS5Padding";
+
     private CryptoUtil() {
 
     }
@@ -36,7 +39,7 @@ public final class CryptoUtil {
 
         byte[] iv = new byte[16];
         new SecureRandom().nextBytes(iv);
-        Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance(AES_CTR_NO_PADDING);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
 
         byte[] encrypted = cipher.doFinal(message);
@@ -65,7 +68,8 @@ public final class CryptoUtil {
         byte[] cipherText = new byte[byteBuffer.remaining()];
         byteBuffer.get(cipherText);
 
-        Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding");
+
+        Cipher cipher = Cipher.getInstance(AES_CTR_NO_PADDING);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
         return cipher.doFinal(cipherText);
     }
@@ -89,7 +93,7 @@ public final class CryptoUtil {
         PBEParameterSpec pbeParamSpec = new PBEParameterSpec(salt, iterations, ivParamSpec);
         PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray());
 
-        SecretKeyFactory kf = SecretKeyFactory.getInstance("PBEWithHmacSHA256AndAES_128");
+        SecretKeyFactory kf = SecretKeyFactory.getInstance("PBEWithHmacSHA256AndAES_256");
         SecretKey secretKey = kf.generateSecret(keySpec);
 
         Cipher cipher = Cipher.getInstance(secretKey.getAlgorithm());
@@ -125,7 +129,7 @@ public final class CryptoUtil {
         PBEParameterSpec pbeParamSpec = new PBEParameterSpec(salt, iterations, ivParamSpec);
         PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray());
 
-        SecretKeyFactory kf = SecretKeyFactory.getInstance("PBEWithHmacSHA256AndAES_128");
+        SecretKeyFactory kf = SecretKeyFactory.getInstance("PBEWithHmacSHA256AndAES_256");
         SecretKey secretKey = kf.generateSecret(keySpec);
 
         Cipher cipher = Cipher.getInstance(secretKey.getAlgorithm());
