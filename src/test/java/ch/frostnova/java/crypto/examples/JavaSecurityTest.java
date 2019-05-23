@@ -36,7 +36,7 @@ public class JavaSecurityTest {
                                 Collectors.toSet())));
 
         securityAlgorithms.keySet().stream().sorted().forEach(type ->
-                System.out.println(type + " : " + securityAlgorithms.get(type).stream().sorted().collect(Collectors.joining(", ")))
+                System.out.println(type + " :\n   " + securityAlgorithms.get(type).stream().sorted().collect(Collectors.joining(", ")))
         );
 
         Assert.assertTrue(securityAlgorithms.get("SSLContext").containsAll(Arrays.asList("TLSv1", "TLSv1.1", "TLSv1.2")));

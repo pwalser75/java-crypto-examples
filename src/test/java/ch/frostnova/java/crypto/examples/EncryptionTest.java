@@ -1,16 +1,13 @@
 package ch.frostnova.java.crypto.examples;
 
+import ch.frostnova.java.crypto.examples.util.ByteSequence;
 import ch.frostnova.java.crypto.examples.util.RandomUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 
 /**
  * Tests for symmetric cryptography
@@ -30,53 +27,32 @@ public class EncryptionTest {
         keyGen.init(256);
         SecretKey secretKey = keyGen.generateKey();
 
-        byte[] encrypted = encrypt(secretKey, data);
-        byte[] decrypted = decrypt(secretKey, encrypted);
+        byte[] encrypted = CryptoUtil.encrypt(secretKey, data);
+        byte[] decrypted = CryptoUtil.decrypt(secretKey, encrypted);
+        String decryptedMessage = new String(decrypted, StandardCharsets.UTF_8);
+
+        System.out.println("Message: " + message);
+        System.out.println("Message Data: " + ByteSequence.toString(data));
+        System.out.println("Encrypted Data: " + ByteSequence.toString(encrypted));
+        System.out.println("Decrypted Data: " + ByteSequence.toString(decrypted));
+        System.out.println("Decrypted Message: " + decryptedMessage);
+
         Assert.assertArrayEquals(data, decrypted);
+        Assert.assertEquals(message, decryptedMessage);
     }
 
     @Test
     public void testEncryptRandomData() throws Exception {
 
-        byte[] data = RandomUtil.randomData(1, 1000000);
+        byte[] data = RandomUtil.randomData(1, 10000);
 
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
         keyGen.init(256);
         SecretKey secretKey = keyGen.generateKey();
 
-        byte[] encrypted = encrypt(secretKey, data);
-        byte[] decrypted = decrypt(secretKey, encrypted);
+        byte[] encrypted = CryptoUtil.encrypt(secretKey, data);
+        byte[] decrypted = CryptoUtil.decrypt(secretKey, encrypted);
+
         Assert.assertArrayEquals(data, decrypted);
-    }
-
-
-    private static byte[] encrypt(SecretKey secretKey, byte[] message) throws Exception {
-
-        byte[] iv = new byte[16];
-        new SecureRandom().nextBytes(iv);
-        Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
-
-        byte[] encrypted = cipher.doFinal(message);
-
-        ByteBuffer byteBuffer = ByteBuffer.allocate(4 + iv.length + encrypted.length);
-        byteBuffer.putInt(iv.length);
-        byteBuffer.put(iv);
-        byteBuffer.put(encrypted);
-        return byteBuffer.array();
-    }
-
-    private static byte[] decrypt(SecretKey secretKey, byte[] encrypted) throws Exception {
-
-        ByteBuffer byteBuffer = ByteBuffer.wrap(encrypted);
-        int ivLength = byteBuffer.getInt();
-        byte[] iv = new byte[ivLength];
-        byteBuffer.get(iv);
-        byte[] cipherText = new byte[byteBuffer.remaining()];
-        byteBuffer.get(cipherText);
-
-        Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
-        return cipher.doFinal(cipherText);
     }
 }

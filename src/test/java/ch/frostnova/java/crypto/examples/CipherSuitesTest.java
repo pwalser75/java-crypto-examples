@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * Test for cipher suites
  *
- * @author wap
+ * @author pwalser
  * @since 13.04.2018
  */
 public class CipherSuitesTest {

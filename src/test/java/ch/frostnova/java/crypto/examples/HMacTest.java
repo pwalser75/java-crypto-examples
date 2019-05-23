@@ -1,5 +1,6 @@
 package ch.frostnova.java.crypto.examples;
 
+import ch.frostnova.java.crypto.examples.util.ByteSequence;
 import ch.frostnova.java.crypto.examples.util.RandomUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +22,13 @@ public class HMacTest {
 
         byte[] key = new byte[16];
         new SecureRandom().nextBytes(key);
-        byte[] data = RandomUtil.randomData(1, 1000000);
+        byte[] data = RandomUtil.randomData(1, 10000);
+
+
+        System.out.println("Key: " + ByteSequence.toString(key));
+        System.out.println("Data: " + ByteSequence.toString(data));
+        System.out.println("Signature: " + ByteSequence.toString(sign(key, data)));
+
 
         Assert.assertArrayEquals(sign(key, data), sign(key, data));
     }

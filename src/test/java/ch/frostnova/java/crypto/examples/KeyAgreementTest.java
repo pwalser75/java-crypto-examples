@@ -1,5 +1,6 @@
 package ch.frostnova.java.crypto.examples;
 
+import ch.frostnova.java.crypto.examples.util.ByteSequence;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,7 +13,7 @@ import java.security.PublicKey;
 /**
  * Key agreement using ECDSA
  *
- * @author wap
+ * @author pwalser
  * @since 11.04.2018
  */
 public class KeyAgreementTest {
@@ -26,6 +27,8 @@ public class KeyAgreementTest {
         byte[] secret1 = p1.generateSecret(p2.getPublicKey());
         byte[] secret2 = p2.generateSecret(p1.getPublicKey());
 
+        System.out.println("Secret 1: " + ByteSequence.toString(secret1));
+        System.out.println("Secret 2: " + ByteSequence.toString(secret2));
         Assert.assertArrayEquals(secret1, secret2);
     }
 
